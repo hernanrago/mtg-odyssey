@@ -1,5 +1,5 @@
 <?php 
-
+require('funciones.php');
 require('clases/abm-cartas.class.php');
 require('clases/GSCarta.class.php');
 

@@ -1,5 +1,5 @@
 <?php
-
+require('funciones.php');
 require('clases/abm-usuarios.class.php');
 require('clases/GSUsuario.class.php');
 
