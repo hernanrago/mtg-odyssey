@@ -3,8 +3,8 @@
 
 class ABMUsuario {
 
-    public function insertarUsuario(GSUsuario $gsu){
-  
+    public function insertarUsuario(GSUsuario $gsu)
+	{
         $nombre=$gsu->getNombre();
         $mail=$gsu->getMail();
         $descripcion=$gsu->getDescripcion();  
@@ -12,19 +12,17 @@ class ABMUsuario {
 
         $query = "INSERT INTO usuarios (nombre_usuario, mail_usuario, descripcion_usuario,password_usuario) VALUES ('$nombre', '$mail', '$descripcion','$password')";
     
-          $connection = conectar();
-           
-          $result = mysqli_query($connection,$query);
+        $connection = conectar();        
+        $result = mysqli_query($connection,$query);
                 
-
-          if (!$result)
-          {
+        if (!$result)
+        {
             mysqli_close($connection);
             $error = "Error: (" . mysql_errno() . ") " . mysql_error().")";
             $insertarOK = false;
-          }else{
+        }else{
             $insertarOK = true;
-          }
+        }
 
             mysqli_close($connection);
             return $insertarOK;
@@ -71,7 +69,7 @@ class ABMUsuario {
                 . "descripcion_usuario  = '$descripcion', "
                 . "password_usuario = '$password' "
                 . "WHERE id_usuario = '$id'";
-         
+         #echo $query; exit();
         $result = mysqli_query($connection,$query);
               
       if (!$result)

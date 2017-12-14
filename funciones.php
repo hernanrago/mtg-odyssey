@@ -5,7 +5,8 @@ function conectar()
 
  	$SERVER		= "127.0.0.1";
 	$USER 		= "root";
-	$PASS 		= "admin123";
+	#$PASS 		= "admin123";
+	$PASS 		= "";
 	$DATABASE	= "gestionproductos";
 
 	if ($db = mysqli_connect($SERVER, $USER, $PASS, $DATABASE))
@@ -20,19 +21,14 @@ function conectar()
 }
 
 function logueo_in($usuario)
-
-
 {
 	 session_start();
 
 	 $_SESSION['usuario'] = $usuario;
-
-
 }	
 
 
 function falta_logueo()
-
 {
  
 	session_start();
