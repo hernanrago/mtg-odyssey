@@ -2,7 +2,10 @@
 
 require('clases/abm-cartas.class.php');
 require('clases/GSCarta.class.php');
+require('funciones.php');
 
+$TAMANO_PAGINA	= 50;
+$pagina = $_GET['pagina'];
 
 if ($_POST)
 {
@@ -11,7 +14,37 @@ if ($_POST)
 		$nombre=$_POST['card_name'];
 		$abmcarta=new ABMCarta;
 		$result =$abmcarta->getCartaByNombre($nombre);
-	
+
+		if (!$pagina)
+		{
+			$cantidad = mysqli_num_rows($result);
+
+			$_SESSION['canti'] = $cantidad;
+			$inicio = 0;
+			$pagina = 1;
+		} else {
+			$cantidad = $_SESSION['canti'];
+			$inicio = ($pagina-1) * $TAMANO_PAGINA;
+		}
+				
+		$total_paginas = ceil($cantidad/$TAMANO_PAGINA);
+
+		if ($cantidad > 0)
+		{ 
+			$sqlb = "SELECT * FROM cards_scg WHERE LOWER (card_name) like '%". strtolower($nombre)."%' order by id ASC LIMIT $TAMANO_PAGINA OFFSET $inicio";
+
+			#echo $sqlb; // exit();
+			$dbb  = conectar();	 
+			$rb = mysqli_query($dbb, $sqlb);
+			
+			if($rb == false)
+			{
+				mysqli_close($dbb);
+				$error = "Error: (" . mysqli_errno() . ") " . mysqli_error().")";
+			}
+				mysqli_close($dbb);						
+		}
+
 	}
 }
 
@@ -43,7 +76,7 @@ if ($_POST)
 			<tbody>
 			<?php
 			
-				while ($fila = mysqli_fetch_array($result))
+				while ($fila = mysqli_fetch_array($rb))
 				{
 			?>
 				<tr>
@@ -67,5 +100,26 @@ if ($_POST)
 			</tbody>
 		</table>
 	</form>
+<div align="center"><?php 
+if(($pagina - 1) > 0)
+{
+	echo " <a href='listado-cartas.php?pagina=".($pagina-1)."'>Anterior</a>"; 
+}
+
+for ($i=1;$i<=$total_paginas;$i++)
+{
+	if($pagina == $i)
+	{
+		echo "<b> ".$pagina."</b>";
+	}else{
+		echo " <a href=listado-cartas.php?pagina=$i>$i</a>";
+	}
+}
+
+if(($pagina + 1) <= $total_paginas)
+{
+	echo " <a href='listado-cartas.php?pagina=".($pagina+1)."'>Siguiente</a>";
+}
+?></div>
 </body>
 </html>

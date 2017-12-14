@@ -5,8 +5,8 @@ function conectar()
 
  	$SERVER		= "127.0.0.1";
 	$USER 		= "root";
-	#$PASS 		= "admin123";
-	$PASS 		= "";
+	$PASS 		= "admin123";
+	#$PASS 		= "";
 	$DATABASE	= "gestionproductos";
 
 	if ($db = mysqli_connect($SERVER, $USER, $PASS, $DATABASE))
@@ -47,6 +47,26 @@ function logueo_out()
 	session_destroy();
 	unset($_SESSION['usuario']);
 	
+}
+
+function cantidad_registros($tabla)
+{
+	$connection = conectar();
+	$query = "select count(*) as cantidad from $tabla";
+	$result = mysqli_query($connection, $query);
+
+	if($result == false)
+	{
+      $error = "Error: (" . mysqli_errno($connection) . ") " . mysqli_error($connection).")";
+      mysqli_close($connection);
+      exit();
+	}
+
+	mysqli_close($connection);
+	$registros = mysqli_fetch_array($result);
+	$cantidad = $registros['cantidad'];
+	return $cantidad;
+
 }
 
  ?>
