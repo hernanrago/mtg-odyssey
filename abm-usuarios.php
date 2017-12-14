@@ -1,5 +1,6 @@
 <?php
-//error_reporting(0);
+error_reporting(0);
+
 require('funciones.php');
 require('clases/abm-usuarios.class.php');
 require('clases/GSUsuario.class.php');

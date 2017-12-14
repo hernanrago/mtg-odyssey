@@ -1,17 +1,18 @@
 <?php
 
 
-class ABMCarta {
 
-  public function insertarCarta(GSCarta $gsc){
+class ABMStock {
+
+  public function insertarCarta(GSStock $gss){
   
-    $nombre=$gsc->getNombre();
-    $edicion=$gsc->getEdicion();
-    $url=$gsc->getUrl();  
-    $precio=$gsc->getPrecio();
-    $insertarOK=false;
+  	$id_usuario_carga=$gss->getId_usuario_carga();
+  	$id_card=$gss->getId_Card();
+  	$precio_compra=$gss->getPrecio_compra();
+  	$estado_carta=$gss->getEstado_carta();
+  	$estado_venta=$gss->getEstado_venta();
 
-    $query = "INSERT INTO cards_scg (card_name, card_edition, card_url, card_price) VALUES ('$nombre', '$edicion', '$url','$precio')";
+    $query = "INSERT INTO `stock_actual`(`id_usuario_carga`, `id_card`, `precio_compra`, `estado_carta`, `estado_venta`) VALUES ('$id_usuario_carga','$id_card','$precio_compra','$estado_carta','$estado_venta')";
 
     $connection = conectar();
      
@@ -53,14 +54,14 @@ class ABMCarta {
     }    
   }
 	
-  public function updateCarta(GSCarta $gsc, $id)
+  public function updateCarta(GSStock $gss, $id)
   {
     $updateOK = false;
     $connection = conectar();
-    $nombre=$gsc->getNombre();
-    $edicion=$gsc->getEdicion();
-    $url=$gsc->getUrl();
-    $precio=$gsc->getPrecio();
+    $nombre=$gss->getNombre();
+    $edicion=$gss->getEdicion();
+    $url=$gss->getUrl();
+    $precio=$gss->getPrecio();
 
     $query = "UPDATE cards_scg SET "
     . "card_name = '$nombre', "
@@ -87,7 +88,7 @@ class ABMCarta {
   public function getAllCartas()
   {
     $connection = conectar();
-    $query = "SELECT * FROM cards_scg ORDER BY id ASC;";
+    $query = "SELECT * FROM `stock_actual`";
     $result = mysqli_query($connection,$query);
 
     if (!$result)
@@ -141,4 +142,3 @@ class ABMCarta {
     }
   }
 }
-
